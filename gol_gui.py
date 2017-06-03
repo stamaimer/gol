@@ -4,16 +4,18 @@ import time
 import numpy as np
 from Tkinter import *
 
+cell_size = 10
+
 
 def draw_a_rect(x, y, status, can):
 
     if status:
 
-        can.create_rectangle(x, y, x + 5, y + 5, fill="black")
+        can.create_rectangle(x, y, x + cell_size, y + cell_size, fill="black")
 
     else:
 
-        can.create_rectangle(x, y, x + 5, y + 5)
+        can.create_rectangle(x, y, x + cell_size, y + cell_size)
 
 
 def get_around_index(row, col, world_size):
@@ -36,7 +38,7 @@ def print_world(world, world_size, can):
 
         for col in xrange(world_size):
 
-            draw_a_rect(row * 5, col * 5, world[row][col], can)
+            draw_a_rect(row * cell_size, col * cell_size, world[row][col], can)
 
 
 def game_of_life(world, world_size):
@@ -67,26 +69,29 @@ def game_of_life(world, world_size):
 
     return new_world
 
-if __name__ == "__main__":
+
+def main():
 
     root = Tk()
+    root.title("Game Of Life")
+    root.resizable(width=0, height=0)
 
     top_frame = Frame(root)
     top_frame.pack(side="top")
 
     bot_frame = Frame(root)
-    bot_frame.pack(side="bottom")
+    bot_frame.pack(side="bottom", fill=BOTH)
 
     world_size_entry = Entry(top_frame)
-    world_size_entry.insert(0, "size of the world")
+    world_size_entry.insert(0, "size_of_the_world")
     world_size_entry.pack(side="left")
 
     live_ratio_entry = Entry(top_frame)
-    live_ratio_entry.insert(0, "ration of the live")
+    live_ratio_entry.insert(0, "ration_of_the_live")
     live_ratio_entry.pack(side="left")
 
     count_entry = Entry(top_frame)
-    count_entry.insert(0, "generation count")
+    count_entry.insert(0, "generation_count")
     count_entry.pack(side="left")
 
     def callback():
@@ -95,9 +100,10 @@ if __name__ == "__main__":
         live_ratio = float(live_ratio_entry.get())
         count = int(count_entry.get())
 
-        can = Canvas(bot_frame)
-        can.place(relx=.5, rely=.5, anchor=CENTER)
-        can.pack(expand=1)
+        can = Canvas(bot_frame, width=world_size*cell_size, height=world_size*cell_size)
+        can.config(highlightbackground="black")
+        can.config(highlightthickness=1)
+        can.pack(padx=10, pady=10)
 
         world = np.random.choice([0, 1],
                                  size=world_size * world_size,
@@ -122,3 +128,7 @@ if __name__ == "__main__":
     start_button.pack(side="left")
 
     root.mainloop()
+
+if __name__ == "__main__":
+
+    main()
