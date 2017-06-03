@@ -9,6 +9,15 @@ cell_size = 10
 
 def draw_a_rect(x, y, status, can):
 
+    """
+
+    :param x:
+    :param y:
+    :param status:
+    :param can:
+    :return:
+    """
+
     if status:
 
         can.create_rectangle(x, y, x + cell_size, y + cell_size, fill="black")
@@ -19,6 +28,16 @@ def draw_a_rect(x, y, status, can):
 
 
 def get_around_index(row, col, world_size):
+
+    """
+
+    获得一个细胞周围八个细胞的有效索引
+
+    :param row:
+    :param col:
+    :param world_size:
+    :return:
+    """
 
     indices = [(row - 1, col - 1), (row - 1, col), (row - 1, col + 1),
                (row, col - 1), (row, col + 1),
@@ -42,6 +61,15 @@ def print_world(world, world_size, can):
 
 
 def game_of_life(world, world_size):
+
+    """
+
+    生成每代世界中细胞生存情况
+
+    :param world:
+    :param world_size:
+    :return:
+    """
 
     new_world = np.copy(world)
 
@@ -71,6 +99,11 @@ def game_of_life(world, world_size):
 
 
 def main():
+
+    """
+
+    :return:
+    """
 
     root = Tk()
     root.title("Game Of Life")
