@@ -4,16 +4,6 @@ import os
 import time
 import numpy as np
 
-world_size = int(raw_input("Please input the size of the world:"))
-
-live_ratio = float(raw_input("Please input the cell live ratio in the world([0, 1]):"))
-
-count = int(raw_input("Please input the generations you want in each second:"))
-
-world = np.random.choice([0, 1],
-                         size=world_size*world_size,
-                         p=[1 - live_ratio, live_ratio]).reshape(world_size, world_size)
-
 
 def get_around_8_index(row, col):
 
@@ -28,36 +18,53 @@ def get_around_8_index(row, col):
 
     return valid_indices
 
-while 1:
 
-    print world
+def game_of_life(world_size, live_ratio, count):
 
-    new_world = np.copy(world)
+    world = np.random.choice([0, 1],
+                             size=world_size * world_size,
+                             p=[1 - live_ratio, live_ratio]).reshape(world_size, world_size)
+    while 1:
 
-    for row in xrange(world_size):
+        print world
 
-        for col in xrange(world_size):
+        new_world = np.copy(world)
 
-            indices = get_around_8_index(row, col)
+        for row in xrange(world_size):
 
-            cell = [world[r][c] for r, c in indices]
+            for col in xrange(world_size):
 
-            live_cell_count = sum(cell)
+                indices = get_around_8_index(row, col)
 
-            if world[row][col]:  # live
+                cell = [world[r][c] for r, c in indices]
 
-                if live_cell_count < 2 or live_cell_count > 3:
+                live_cell_count = sum(cell)
 
-                    new_world[row][col] = 0
+                if world[row][col]:  # live
 
-            else:  # dead
+                    if live_cell_count < 2 or live_cell_count > 3:
 
-                if live_cell_count == 3:
+                        new_world[row][col] = 0
 
-                    new_world[row][col] = 1
+                else:  # dead
 
-    world = new_world
+                    if live_cell_count == 3:
 
-    time.sleep(1 / count)
+                        new_world[row][col] = 1
 
-    os.system("clear")
+        world = new_world
+
+        time.sleep(1 / count)
+
+        os.system("clear")
+
+
+if __name__ == "__main__":
+
+    world_size = int(raw_input("Please input the size of the world:"))
+
+    live_ratio = float(raw_input("Please input the cell live ratio in the world([0, 1]):"))
+
+    count = int(raw_input("Please input the generations you want in each second:"))
+
+    game_of_life(world_size, live_ratio, count)
