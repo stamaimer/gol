@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 import time
 import numpy as np
 
@@ -19,14 +20,42 @@ def get_around_8_index(row, col):
     return valid_indices
 
 
+def print_world(world, world_size):
+
+    for row in xrange(world_size):
+
+        for col in xrange(world_size):
+
+            if col != world_size - 1:
+
+                if world[row][col]:
+
+                    sys.stdout.write(u"\u25A0")
+
+                else:
+
+                    sys.stdout.write(u"\u25A1")
+
+            else:
+
+                if world[row][col]:
+
+                    sys.stdout.write(u"\u25A0\n")
+
+                else:
+
+                    sys.stdout.write(u"\u25A1\n")
+
+
 def game_of_life(world_size, live_ratio, count):
 
     world = np.random.choice([0, 1],
                              size=world_size * world_size,
                              p=[1 - live_ratio, live_ratio]).reshape(world_size, world_size)
+
     while 1:
 
-        print world
+        print_world(world, world_size)
 
         new_world = np.copy(world)
 
