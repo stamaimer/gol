@@ -107,13 +107,13 @@ def main():
 
     root = Tk()
     root.title("Game Of Life")
-    root.resizable(width=0, height=0)
+    # root.resizable(width=0, height=0)
 
     top_frame = Frame(root)
     top_frame.pack(side="top")
 
     bot_frame = Frame(root)
-    bot_frame.pack(side="bottom", fill=BOTH)
+    bot_frame.pack(side="bottom")
 
     world_size_entry = Entry(top_frame)
     world_size_entry.insert(0, "size_of_the_world")
@@ -133,10 +133,12 @@ def main():
         live_ratio = float(live_ratio_entry.get())
         count = int(count_entry.get())
 
+        top_frame.config(width=world_size*cell_size)
+
         can = Canvas(bot_frame, width=world_size*cell_size, height=world_size*cell_size)
         can.config(highlightbackground="black")
         can.config(highlightthickness=1)
-        can.pack(padx=10, pady=10)
+        can.pack()
 
         world = np.random.choice([0, 1],
                                  size=world_size * world_size,
