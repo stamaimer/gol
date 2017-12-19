@@ -127,7 +127,9 @@ def main():
     count_entry.insert(0, "generation_count")
     count_entry.pack(side="left")
 
-    def callback():
+    stop = 0
+
+    def start_callback():
 
         world_size = int(world_size_entry.get())
         live_ratio = float(live_ratio_entry.get())
@@ -135,14 +137,15 @@ def main():
 
         top_frame.config(width=world_size*cell_size)
 
-        can = Canvas(bot_frame, width=world_size*cell_size, height=world_size*cell_size)
-        can.config(highlightbackground="black")
-        can.config(highlightthickness=1)
+        can = Canvas(bot_frame, width=world_size*cell_size, height=world_size*cell_size, borderwidth=0)
+        # can.config(highlightbackground="black")
+        # can.config(highlightthickness=1)
         can.pack()
 
         world = np.random.choice([0, 1],
                                  size=world_size * world_size,
                                  p=[1 - live_ratio, live_ratio]).reshape(world_size, world_size)
+        # can.delete("all")
 
         while 1:
 
@@ -152,15 +155,29 @@ def main():
 
             print_world(world, world_size, can)
 
+            print stop
+
+            if stop:
+
+                return
+
             root.update_idletasks()
 
             root.update()
 
             time.sleep(1/count)
 
-    start_button = Button(top_frame, text="Start", command=callback)
+    def stop_callback():
+
+        stop = 1
+
+    start_button = Button(top_frame, text="Start", command=start_callback)
 
     start_button.pack(side="left")
+
+    stop_button = Button(top_frame, text="Stop", command=stop_callback)
+
+    stop_button.pack(side="left")
 
     root.mainloop()
 
